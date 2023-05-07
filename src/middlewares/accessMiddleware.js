@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken')
 
 const autenticar = (req, res, next) => {
     try {
-        // console.info(req.headers['authorization'])
         const bearerHeader = req.headers['authorization']
     
         if (typeof bearerHeader !== 'undefined') {
@@ -11,16 +10,16 @@ const autenticar = (req, res, next) => {
                 if (error) {
                     res.status(401).json({ 
                         error: 401, 
-                        mensaje: 'Problemas para acceder a este recurso.'
+                        mensaje: 'Problems accessing this resource.'
                     })
                 }
             })
             next()
         } else {
-            res.status(401).json({ error: 401, mensaje: 'No tiene autorización para acceder a este recurso.' })
+            res.status(401).json({ error: 401, mensaje: 'You are not authorized to access this resource.' })
         }
     } catch (error) {
-        console.info(error)
+        console.error(error)
     }
 }
 

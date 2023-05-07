@@ -19,10 +19,8 @@ const sequelize = new Sequelize(
 
 try {
     sequelize.authenticate()
-    console.info("Autenticado en la Base de Datos")
 } catch (error) {
-    console.info("Error al autenticarse en la Base de Datos")
-    console.info("Error: ", error)
+    console.error("Error in the database: ", error)
 }
 
 module.exports = sequelize

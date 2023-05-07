@@ -5,7 +5,7 @@ const getActivitiesService = async () => {
     try {
         jsonData = { "status": "Ok", data: "1" }
     } catch (error) {
-        console.log(error)
+        console.error(error)
         jsonData = { "status": "fail", "error" : "Error get Activities" }
     }
     return jsonData
