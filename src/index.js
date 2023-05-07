@@ -11,7 +11,6 @@ const swaggerUi = require('swagger-ui-express')
 const swaggerJsdoc = require('swagger-jsdoc')
 
 const db = require('./database/database')
-//const { autenticar } = require('./middlewares/accessMiddleware')
 
 dotenv.config()
 
@@ -27,41 +26,37 @@ app.use(morgan('dev'))
 
 // Swagger configuration
 const options = {
-    definition: {
-      openapi: '3.0.0',
-      info: {
-        title: 'Mi API',
-        description: 'Api test',
-        version: '1.0.0'
-      },
-      servers: [
-        {
-          url: 'http://localhost:3000'
-        }
-      ]
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'API',
+      description: 'Api test',
+      version: '1.0.0'
     },
-    apis: ['./src/routes/**/*.js']
-  }
-  
-  // Generar la documentación de Swagger
-  const specs = swaggerJsdoc(options)
-  
-  // Agregar el middleware de Swagger
-  app.use('/docs', swaggerUi.serve, swaggerUi.setup(specs))
+    servers: [
+      {
+        url: 'http://localhost:3000'
+      }
+    ]
+  },
+  apis: ['./src/routes/**/*.js']
+}
 
-  
+const specs = swaggerJsdoc(options)
+
 // Routes
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(specs))
 app.use('/api/v1', require('./routes/public'))
 //app.use('/api', autenticar, require('./routes/admin'))
 
 app.listen(port, () => {
-    db.sync({ force: false, alter: false })
+  db.sync({ force: false, alter: false })
     .then(() => {
-        console.info('Successful Database')
-        console.info('Port: ', port)
+      console.info('Successful Database')
+      console.info('Port: ', port)
     })
-    .catch(error=>{
-        console.info('Error in the database')
-        console.info(error)
+    .catch(error => {
+      console.info('Error in the database')
+      console.info(error)
     })
 })
