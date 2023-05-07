@@ -1,0 +1,41 @@
+version: '3'
+services:
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_USER: test
+      PMA_PASSWORD: test
+    ports:
+      - 8080:80
+    depends_on:
+      - db
+
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: test
+      MYSQL_DATABASE: test
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+    volumes:
+      - ./db:/var/lib/mysql
+  app:
+    build:
+      context: .
+      target: development
+    restart: always
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: my_database
+      DB_USER: my_user
+      DB_PASSWORD: my_password
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/app
